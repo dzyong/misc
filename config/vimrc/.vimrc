@@ -24,6 +24,7 @@ set nobackup
 set nowrap
 syntax on
 set laststatus=2
+set statusline=%F%m%r%h%w%y/[%03l,%03v]/[%p%%]
 set smarttab
 set tabstop=4
 set shiftwidth=4
