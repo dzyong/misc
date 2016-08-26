@@ -34,6 +34,7 @@ set showcmd
 set nocompatible
 set backspace=indent,eol,start
 filetype plugin indent on
+set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
 let Tlist_Show_One_File=1
 let Tlist_Exit_OnlyWindow=1
 nmap <C-l> :TlistToggle<CR>
