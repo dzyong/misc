@@ -53,4 +53,4 @@ nmap <C-\> :CtrlPMRUFiles<CR>
 nmap <C-b> :CtrlPBuffer<CR>
 nmap <C-t> :CtrlPBufTagAll<CR>
 inoremap ii <Esc>
-map bb BufExplorer
+cmap bb BufExplorer
