@@ -54,3 +54,4 @@ nmap <C-b> :CtrlPBuffer<CR>
 nmap <C-t> :CtrlPBufTagAll<CR>
 inoremap ii <Esc>
 cmap bb BufExplorer
+nmap <C-n> :set rnu!<CR>
