@@ -13,7 +13,7 @@ else
     set guifont=Consolas:h15:cANSI
     set mouse+=a
     set cursorline
-    hi Normal guibg=#ebffeb guifg=black
+    highlight Normal guibg=#303030 guifg=white
     tmenu ToolBar.BuiltIn20 Toggle Tlist
     amenu ToolBar.BuiltIn20 :TlistToggle<CR>:copen<CR><C-W><C-K>
     tmenu ToolBar.BuiltIn0 Find references
@@ -61,6 +61,5 @@ let mapleader = ";"
 nmap <C-\> :CtrlPMRUFiles<CR>
 nmap <C-b> :CtrlPBuffer<CR>
 nmap <C-t> :CtrlPBufTagAll<CR>
-inoremap ii <Esc>
 cmap bb BufExplorer
 set showcmd
