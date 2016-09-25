@@ -11,11 +11,20 @@ if !has("gui_running")
     set nocursorline
 else
     set guifont=Consolas:h15:cANSI
-    set guioptions-=T
     set mouse+=a
     set cursorline
+    hi Normal guibg=#ebffeb guifg=black
+    tmenu ToolBar.BuiltIn20 Toggle Tlist
+    amenu ToolBar.BuiltIn20 :TlistToggle<CR>:copen<CR><C-W><C-K>
+    tmenu ToolBar.BuiltIn0 Find references
+    amenu ToolBar.BuiltIn0 :cs find s <C-R><C-W><CR>
+    tmenu ToolBar.BuiltIn18 Show buffers
+    amenu ToolBar.BuiltIn18 :BufExplorer<CR>
+    tmenu ToolBar.BuiltIn10 Find definition
+    amenu ToolBar.BuiltIn10 :cs find g 
+    nmap <C-RightMouse> <C-O>
+    set guioptions-=m
 endif
-hi Normal guibg=#ebffeb guifg=black
 set hlsearch
 set ignorecase
 set smartcase
