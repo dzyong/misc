@@ -10,7 +10,11 @@ if !has("gui_running")
     set mouse-=a
     set nocursorline
 else
-    set guifont=Consolas:h15:cANSI
+    if has('win32')
+        set guifont=Consolas:h15:cANSI
+    elseif has('unix')
+        set guifont=Monospace\ 15
+    endif
     set mouse+=a
     set cursorline
     tmenu ToolBar.BuiltIn20 Toggle Tlist
