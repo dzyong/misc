@@ -17,14 +17,6 @@ else
     endif
     set mouse+=a
     set cursorline
-    tmenu ToolBar.BuiltIn20 Toggle Tlist
-    amenu ToolBar.BuiltIn20 :TlistToggle<CR>:copen<CR><C-W><C-K>
-    tmenu ToolBar.BuiltIn0 Find references
-    amenu ToolBar.BuiltIn0 :cs find s <C-R><C-W><CR>
-    tmenu ToolBar.BuiltIn18 Show buffers
-    amenu ToolBar.BuiltIn18 :BufExplorer<CR>
-    tmenu ToolBar.BuiltIn10 Find definition
-    amenu ToolBar.BuiltIn10 :cs find g 
     nmap <C-RightMouse> <C-O>
     set guioptions-=m
 endif
@@ -48,13 +40,14 @@ let Tlist_Show_One_File=1
 let Tlist_Exit_OnlyWindow=1
 nmap <C-l> :TlistToggle<CR>
 nmap ff :cs find f <C-R><C-F><CR>
-nmap fd :cs find g <C-R><C-W><CR>
+nmap fg :cs find g <C-R><C-W><CR>
+nmap fG :cs find g 
 nmap fs :cs find s <C-R><C-W><CR>
 language C
 set cscopequickfix=s-,c-,d-,i-,t-,e-,g-
 set cst
-nmap cn :cn<CR>
-nmap cp :cp<CR>
+nmap co :copen<CR>
+nmap cc :cclose<CR>
 let g:ctrlp_use_caching = 1
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_working_path_mode = 0
@@ -64,5 +57,7 @@ let mapleader = ";"
 nmap <C-\> :CtrlPMRUFiles<CR>
 nmap <C-b> :CtrlPBuffer<CR>
 nmap <C-t> :CtrlPBufTagAll<CR>
-cmap bb BufExplorer
 set showcmd
+set fileencodings=utf-8,gb2312,cp936
+set termencoding=utf-8
+set encoding=utf-8
