@@ -25,8 +25,11 @@ set ignorecase
 set smartcase
 set nobackup
 set nowrap
+nmap <C-A> :set wrap!<CR>
+nmap <C-N> :set relativenumber!<CR>
 syntax on
 set laststatus=2
+set statusline=%F%m%r\ (Line=%l\|%p%%)
 set smarttab
 set tabstop=4
 set shiftwidth=4
