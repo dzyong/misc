@@ -41,7 +41,7 @@ set backspace=indent,eol,start
 filetype plugin indent on
 let Tlist_Show_One_File=1
 let Tlist_Exit_OnlyWindow=1
-nmap <C-l> :TlistToggle<CR>
+nmap <C-L> :TlistToggle<CR>
 nmap ff :cs find f <C-R><C-F><CR>
 nmap fg :cs find g <C-R><C-W><CR>
 nmap fG :cs find g 
@@ -57,9 +57,9 @@ let g:ctrlp_working_path_mode = 0
 let g:ctrlp_lazy_update = 1
 let g:ctrlp_extensions = ['funky']
 let mapleader = ";"
-nmap <C-\> :CtrlPMRUFiles<CR>
-nmap <C-b> :CtrlPBuffer<CR>
-nmap <C-t> :CtrlPBufTagAll<CR>
+nmap <C-M> :CtrlPMRUFiles<CR>
+nmap <C-B> :CtrlPBuffer<CR>
+nmap <C-E> :e %:h<CR>
 set showcmd
 set fileencodings=utf-8,gb2312,cp936
 set termencoding=utf-8
