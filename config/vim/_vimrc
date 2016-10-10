@@ -64,3 +64,10 @@ set showcmd
 set fileencodings=utf-8,gb2312,cp936
 set termencoding=utf-8
 set encoding=utf-8
+fun! AddCs()
+    if filereadable(expand("%:h") . "/GTAGS")
+        cd %:h
+        cs add GTAGS
+    endif
+endfun
+autocmd BufRead *.cpp,*.c,*.hpp,*.h,Makefile.*,makefile.* call AddCs()
