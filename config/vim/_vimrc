@@ -42,6 +42,7 @@ filetype plugin indent on
 let Tlist_Show_One_File=1
 let Tlist_Exit_OnlyWindow=1
 nmap <C-L> :TlistToggle<CR>
+nmap <C-G> :!global -u<CR>
 nmap ff :cs find f <C-R><C-F><CR>
 nmap fg :cs find g <C-R><C-W><CR>
 nmap fG :cs find g 
