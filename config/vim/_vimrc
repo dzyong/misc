@@ -58,8 +58,7 @@ let g:ctrlp_working_path_mode = 0
 let g:ctrlp_lazy_update = 1
 let g:ctrlp_extensions = ['funky']
 let mapleader = ";"
-nmap <C-M> :CtrlPMRUFiles<CR>
-nmap <C-B> :CtrlPBuffer<CR>
+nmap <C-F> :CtrlPMRUFiles<CR>
 nmap <C-E> :e %:h<CR>
 set showcmd
 set fileencodings=utf-8,gb2312,cp936
