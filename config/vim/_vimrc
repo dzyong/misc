@@ -26,7 +26,6 @@ set smartcase
 set nobackup
 set nowrap
 nmap <C-A> :set wrap!<CR>
-nmap <C-N> :set relativenumber!<CR>
 syntax on
 set laststatus=2
 set statusline=%F%m%r\ (Line=%l\|%p%%)
@@ -58,7 +57,7 @@ let g:ctrlp_working_path_mode = 0
 let g:ctrlp_lazy_update = 1
 let g:ctrlp_extensions = ['funky']
 let mapleader = ";"
-nmap <C-F> :CtrlPMRUFiles<CR>
+nmap <C-B> :CtrlPMRUFiles<CR>
 nmap <C-E> :e %:h<CR>
 set showcmd
 set fileencodings=utf-8,gb2312,cp936
