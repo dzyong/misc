@@ -70,5 +70,11 @@ fun! AddCs()
     endif
 endfun
 autocmd BufRead *.cpp,*.c,*.hpp,*.h,Makefile.*,makefile.* call AddCs()
-nmap md :!start markdown_py.bat % > \%TMP\%/%:t.html&&\%TMP\%/%:t.html<CR><CR>
-vmap <C-F> "+y:vim <C-R>" %<CR>:copen<CR>
+nmap <C-D> :!start markdown_py.bat % > \%TMP\%/%:t.html&&\%TMP\%/%:t.html<CR><CR>
+imap <C-D> <C-O><C-D>
+vmap <C-F> "+y<C-C>:vim <C-R>" %<CR>:copen<CR>
+vmap <C-C> "+y
+imap <C-V> <C-O>"+p
+imap <C-X> <C-O>"+d
+imap <C-S> <C-O>:w<CR>
+imap <C-Z> <C-O><C-Z>
