@@ -78,3 +78,4 @@ imap <C-V> <C-O>"+p
 imap <C-X> <C-O>"+d
 imap <C-S> <C-O>:w<CR>
 imap <C-Z> <C-O><C-Z>
+autocmd BufReadPost,FileReadPost * '"
