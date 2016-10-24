@@ -74,7 +74,8 @@ nmap <C-D> :!start /B markdown % > \%TMP\%/%:t.html&&\%TMP\%/%:t.html<CR><CR>
 imap <C-D> <C-O><C-D>
 vmap <C-F> "+y<C-C>:vim <C-R>" %<CR>:copen<CR>
 vmap <C-C> "+y
-imap <C-V> <C-O>"+p
+imap <C-V> <C-O>"+P
+cmap <C-V> <C-R>+
 imap <C-X> <C-O>"+d
 imap <C-S> <C-O>:w<CR>
 imap <C-Z> <C-O><C-Z>
