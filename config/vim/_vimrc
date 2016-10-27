@@ -83,7 +83,11 @@ autocmd BufReadPost,FileReadPost * '"
 set cm=blowfish2
 fun! CurDirShell()
     cd %:h
-    silent shell
+    if !has("gui_running")
+        shell
+    else
+        silent shell
+    endif
     cd -
 endfun
 nmap ss :call CurDirShell()<CR>
