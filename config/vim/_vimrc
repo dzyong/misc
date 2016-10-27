@@ -81,3 +81,9 @@ imap <C-S> <C-O>:w<CR>
 imap <C-Z> <C-O><C-Z>
 autocmd BufReadPost,FileReadPost * '"
 set cm=blowfish2
+fun! CurDirShell()
+    cd %:h
+    silent shell
+    cd -
+endfun
+nmap ss :call CurDirShell()<CR>
