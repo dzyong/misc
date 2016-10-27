@@ -86,7 +86,11 @@ fun! CurDirShell()
     if !has("gui_running")
         shell
     else
-        silent shell
+        if has('win32')
+            silent shell
+        else
+            echo "use <C-Z>"
+        endif
     endif
     cd -
 endfun
