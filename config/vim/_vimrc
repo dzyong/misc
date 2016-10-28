@@ -95,3 +95,4 @@ fun! CurDirShell()
     cd -
 endfun
 nmap ss :call CurDirShell()<CR>
+nmap mm :vim /^#.*#$/ %<CR>:copen<CR>
