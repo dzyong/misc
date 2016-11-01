@@ -89,7 +89,7 @@ fun! CurDirShell()
         if has('win32')
             silent shell
         else
-            echo "use <C-Z>"
+            shell
         endif
     endif
     cd -
