@@ -81,7 +81,7 @@ cmap <C-V> <C-R>+
 imap <C-X> <C-O>"+d
 imap <C-S> <C-O>:w<CR>
 imap <C-Z> <C-O><C-Z>
-autocmd BufReadPost,FileReadPost * '"
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 set cm=blowfish2
 fun! CurDirShell()
     cd %:h
