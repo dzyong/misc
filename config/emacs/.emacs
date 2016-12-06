@@ -7,6 +7,7 @@
 (recentf-mode t)
 (global-set-key (kbd "<f5>") 'speedbar)
 (global-set-key (kbd "<f12>") 'gtags-mode)
+(setq-default frame-title-format "%b (%f)")
 (setq indent-tabs-mode nil)
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq gtags-suggested-key-mapping t)
