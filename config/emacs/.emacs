@@ -11,4 +11,4 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq gtags-suggested-key-mapping t)
 (load "gtags")
-
+(server-start)
