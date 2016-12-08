@@ -21,5 +21,7 @@
 (load "gtags")
 (add-hook 'find-file-hooks (lambda()(toggle-read-only t)))
 (setq column-number-mode t)
-(set-default-font "-outline-Î¢ÈíÑÅºÚ-normal-normal-normal-sans-13-*-*-*-p-*-iso8859-1")
+(set-default-font "-outline-å¾®è½¯é›…é»‘-normal-normal-normal-sans-13-*-*-*-p-*-iso8859-1")
+(prefer-coding-system 'utf-8)
+(load "unicad")
 (server-start)
