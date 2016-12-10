@@ -9,7 +9,6 @@ if filereadable("Session.vim")
 endif
 if !has("gui_running")
     set mouse-=a
-    set nocursorline
 else
     if has('win32')
         set guifont=Consolas:h15:cANSI
@@ -17,16 +16,17 @@ else
         set guifont=Monospace\ 15
     endif
     set mouse+=a
-    set cursorline
     nmap <C-RightMouse> <C-O>
     set guioptions-=m
 endif
+set cursorline
 set hlsearch
 set incsearch
 set ignorecase
 set smartcase
 set nobackup
-set nowrap
+set wrap
+set breakindent
 syntax on
 set laststatus=2
 set statusline=%F%m%r\ (%l,\ %c)\ %p%%
