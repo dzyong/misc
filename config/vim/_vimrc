@@ -9,6 +9,7 @@ if filereadable("Session.vim")
 endif
 if !has("gui_running")
     set mouse-=a
+    set nocursorline
 else
     if has('win32')
         set guifont=Consolas:h15:cANSI
@@ -18,8 +19,8 @@ else
     set mouse+=a
     nmap <C-RightMouse> <C-O>
     set guioptions-=m
+    set cursorline
 endif
-set cursorline
 set hlsearch
 set incsearch
 set ignorecase
@@ -99,7 +100,6 @@ nmap <C-F>s :cs find s <C-R><C-W>
 nmap <C-G> :!global -u<CR>
 nmap <C-L> :TlistToggle<CR>
 nmap <C-N> :e %:h<CR>
-nmap <C-R> :redo<CR>
 nmap <C-S> :w<CR>
 nmap <C-U> :undo<CR>
 nmap mm :vim /^#.*#$/ %<CR>:copen<CR>
