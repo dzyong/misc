@@ -99,7 +99,9 @@ nmap <C-F>s :cs find s <C-R><C-W>
 nmap <C-G> :!global -u<CR>
 nmap <C-L> :TlistToggle<CR>
 nmap <C-N> :e %:h<CR>
+nmap <C-R> :redo<CR>
 nmap <C-S> :w<CR>
+nmap <C-U> :undo<CR>
 nmap mm :vim /^#.*#$/ %<CR>:copen<CR>
 nmap ss :call CurDirShell()<CR>
 vmap <C-C> "+y
