@@ -9,7 +9,6 @@ if filereadable("Session.vim")
 endif
 if !has("gui_running")
     set mouse-=a
-    hi LineNr ctermbg=black
 else
     if has('win32')
         set guifont=Consolas:h15:cANSI
@@ -19,15 +18,14 @@ else
     set mouse+=a
     nmap <C-RightMouse> <C-O>
     set guioptions-=m
-    hi LineNr guibg=black
 endif
+set cursorline
 set hlsearch
 set incsearch
 set ignorecase
 set smartcase
 set nobackup
 set wrap
-set relativenumber
 syntax on
 set laststatus=2
 set statusline=%F%m%r\ (%l,\ %c)\ %p%%
@@ -42,7 +40,7 @@ filetype plugin indent on
 let Tlist_Show_One_File=1
 let Tlist_Exit_OnlyWindow=1
 language C
-set cscopequickfix=s-,c-,d-,i-,t-,e-,g-
+set cscopequickfix=s-,c-,d-,i-,t-,e-,g-,f-
 set cst
 let g:ctrlp_use_caching = 1
 let g:ctrlp_clear_cache_on_exit = 0
@@ -74,35 +72,35 @@ fun! CurDirShell()
     endif
     cd -
 endfun
-nmap <C-L> :TlistToggle<CR>
-nmap <C-G> :!global -u<CR>
-nmap <C-F>f :cs find f <C-R><C-F><CR>
-nmap <C-F>g :cs find g <C-R><C-W><CR>
-nmap <C-F>G :cs find g 
-nmap <C-F>s :cs find s <C-R><C-W><CR>
-nmap ss :call CurDirShell()<CR>
-nmap mm :vim /^#.*#$/ %<CR>:copen<CR>
-nmap <C-C>o :copen<CR>
-nmap <C-C>c :cclose<CR>
-nmap <C-C>n :cnext<CR>
-nmap <C-C>p :cprevious<CR>
-nmap <C-B> :CtrlPMRUFiles<CR>
-nmap <C-E> :e %:h<CR>
-nmap <C-D> :!start /B echo ^<head^>^<meta charset="utf-8"^>^</head^> >\%TMP\%/%:t.html&&markdown % >>\%TMP\%/%:t.html&&\%TMP\%/%:t.html<CR><CR>
-nmap <C-A> ^
-nmap <C-E> $
-nmap <C-S> :w<CR>
-imap <C-L> <C-O>:TlistToggle<CR>
-imap <C-B> <C-C><C-B>
+cmap <C-V> <C-R>+
 imap <C-A> <C-O>^
-imap <C-E> <C-O>$
-imap <C-U> <C-O>:undo<CR>
-imap <C-R> <C-O>:redo<CR>
+imap <C-B> <C-C><C-B>
 imap <C-D> <C-O><C-D>
+imap <C-E> <C-O>$
+imap <C-L> <C-O>:TlistToggle<CR>
+imap <C-R> <C-O>:redo<CR>
+imap <C-S> <C-O>:w<CR>
+imap <C-U> <C-O>:undo<CR>
 imap <C-V> <C-O>"+P
 imap <C-X> <C-O>"+d
-imap <C-S> <C-O>:w<CR>
 imap <C-Z> <C-O><C-Z>
-vmap <C-F> "+y<C-C>:vim "<C-R>"" %<CR>:copen<CR>
+nmap <C-A> ^
+nmap <C-B> :CtrlPMRUFiles<CR>
+nmap <C-C>c :cclose<CR>
+nmap <C-C>n :cnext<CR>
+nmap <C-C>o :copen<CR>
+nmap <C-C>p :cprevious<CR>
+nmap <C-D> :!start /B echo ^<head^>^<meta charset="utf-8"^>^</head^> >\%TMP\%/%:t.html&&markdown % >>\%TMP\%/%:t.html&&\%TMP\%/%:t.html<CR><CR>
+nmap <C-E> $
+nmap <C-F>f :cs find g 
+nmap <C-F>g :cs find g <C-R><C-W>
+nmap <C-F>i :cs find f <C-R><C-F>
+nmap <C-F>s :cs find s <C-R><C-W>
+nmap <C-G> :!global -u<CR>
+nmap <C-L> :TlistToggle<CR>
+nmap <C-N> :e %:h<CR>
+nmap <C-S> :w<CR>
+nmap mm :vim /^#.*#$/ %<CR>:copen<CR>
+nmap ss :call CurDirShell()<CR>
 vmap <C-C> "+y
-cmap <C-V> <C-R>+
+vmap <C-F> "+y<C-C>:vim "<C-R>"" %<CR>:copen<CR>
