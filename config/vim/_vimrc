@@ -1,33 +1,14 @@
 set nocompatible
 set cscopeprg=gtags-cscope
-if filereadable("GTAGS")
-    execute "cs add GTAGS"
-endif
-if filereadable("Session.vim")
-    execute "source Session.vim"
-    autocmd VimLeave * :mksession!
-endif
-if !has("gui_running")
-    set mouse-=a
-    set nocursorline
-else
-    if has('win32')
-        set guifont=Consolas:h15:cANSI
-    elseif has('unix')
-        set guifont=Monospace\ 15
-    endif
-    set mouse+=a
-    nmap <C-RightMouse> <C-O>
-    set guioptions-=m
-    set cursorline
-endif
+set cscopequickfix=s-,c-,d-,i-,t-,e-,g-,f-
+set cst
+set cursorline
 set hlsearch
 set incsearch
 set ignorecase
 set smartcase
 set nobackup
 set wrap
-syntax on
 set laststatus=2
 set statusline=%F%m%r\ (%l,\ %c)\ %p%%
 set smarttab
@@ -37,29 +18,39 @@ set expandtab
 set autoindent
 set showcmd
 set backspace=indent,eol,start
+set fileencodings=utf-8,gb2312,cp936
+set termencoding=utf-8
+set encoding=utf-8
+set cm=blowfish2
+if filereadable("GTAGS")
+    cs add GTAGS
+endif
+if filereadable("Session.vim")
+    source Session.vim
+    au VimLeave * :mksession!
+endif
+if !has("gui_running")
+    set mouse-=a
+else
+    if has('win32')
+        set guifont=Consolas:h15:cANSI
+    elseif has('unix')
+        set guifont=Monospace\ 15
+    endif
+    set mouse+=a
+    nmap <C-RightMouse> <C-O>
+    set guioptions-=m
+endif
+syntax on
 filetype plugin indent on
+language C
 let Tlist_Show_One_File=1
 let Tlist_Exit_OnlyWindow=1
-language C
-set cscopequickfix=s-,c-,d-,i-,t-,e-,g-,f-
-set cst
 let g:ctrlp_use_caching = 1
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_lazy_update = 1
 let g:ctrlp_extensions = ['funky']
-set fileencodings=utf-8,gb2312,cp936
-set termencoding=utf-8
-set encoding=utf-8
-fun! AddCs()
-    if filereadable(expand("%:h") . "/GTAGS")
-        cd %:h
-        cs add GTAGS
-    endif
-endfun
-autocmd BufRead *.cpp,*.c,*.hpp,*.h,Makefile*,makefile* call AddCs()
-au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-set cm=blowfish2
 fun! CurDirShell()
     cd %:h
     if !has("gui_running")
@@ -73,6 +64,29 @@ fun! CurDirShell()
     endif
     cd -
 endfun
+fun! FindGtags(path)
+    if filereadable("GTAGS")
+        cs add GTAGS
+        return 0
+    else
+        let lpath = getcwd()
+        cd ..
+        if lpath == getcwd()
+            return -1
+        endif
+        return FindGtags(getcwd())
+    endif
+endfun
+fun! AddCs()
+    if cscope_connection() == 0
+        cd %:h
+        if FindGtags(getcwd()) == -1
+            cd %:h
+        endif
+    endif
+endfun
+au BufRead *.cpp,*.c,*.hpp,*.h,Makefile*,makefile* call AddCs()
+au BufRead * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 cmap <C-V> <C-R>+
 imap <C-A> <C-O>^
 imap <C-B> <C-C><C-B>
@@ -100,6 +114,7 @@ nmap <C-F>s :cs find s <C-R><C-W>
 nmap <C-G> :!global -u<CR>
 nmap <C-L> :TlistToggle<CR>
 nmap <C-N> :e %:h<CR>
+nmap <C-R> :redo<CR>
 nmap <C-S> :w<CR>
 nmap <C-U> :undo<CR>
 nmap mm :vim /^#.*#$/ %<CR>:copen<CR>
