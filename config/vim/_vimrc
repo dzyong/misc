@@ -22,6 +22,7 @@ set fileencodings=utf-8,gb2312,cp936
 set termencoding=utf-8
 set encoding=utf-8
 set cm=blowfish2
+set updatetime=1000
 if filereadable("GTAGS")
     cs add GTAGS
 endif
@@ -39,7 +40,6 @@ else
     endif
     set mouse+=a
     nmap <C-RightMouse> <C-O>
-    set guioptions-=m
 endif
 syntax on
 filetype plugin indent on
@@ -50,6 +50,7 @@ let g:ctrlp_use_caching = 1
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_lazy_update = 1
+let g:ctrlp_max_files = 0
 let g:ctrlp_extensions = ['funky']
 fun! CurDirShell()
     cd %:h
@@ -85,7 +86,7 @@ fun! AddCs()
         endif
     endif
 endfun
-au BufRead *.cpp,*.c,*.hpp,*.h,Makefile*,makefile* call AddCs()
+au BufRead *.cxx,*.cc,*.cpp,*.c,*.hpp,*.h,Makefile*,makefile* call AddCs()
 au BufRead * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 cmap <C-V> <C-R>+
 imap <C-A> <C-O>^
