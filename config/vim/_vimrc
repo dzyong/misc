@@ -19,6 +19,7 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 set autoindent
+set autoread
 set showcmd
 set backspace=indent,eol,start
 set fileencodings=utf-8,gb2312,cp936
