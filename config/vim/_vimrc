@@ -83,10 +83,12 @@ fun! FindGtags(path)
     endif
 endfun
 fun! AddCs()
-    if cscope_connection() == 0
-        cd %:h
-        if FindGtags(getcwd()) == -1
+    if isdirectory(expand("%:p:h"))
+        if cscope_connection() == 0
             cd %:h
+            if FindGtags(getcwd()) == -1
+                cd %:h
+            endif
         endif
     endif
 endfun
