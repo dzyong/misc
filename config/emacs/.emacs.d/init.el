@@ -26,4 +26,5 @@
 (set-default-font "-outline-Microsoft Yahei UI-normal-normal-normal-sans-13-*-*-*-p-*-iso8859-1")
 (require 'sr-speedbar)
 (setq speedbar-tag-hierarchy-method (quote(speedbar-sort-tag-hierarchy)))
+(setq large-file-warning-threshold nil)
 (server-start)
