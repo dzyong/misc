@@ -27,9 +27,6 @@ set termencoding=utf-8
 set encoding=utf-8
 set cm=blowfish2
 set updatetime=1000
-if filereadable("GTAGS")
-    cs add GTAGS
-endif
 if filereadable("Session.vim")
     source Session.vim
     au VimLeave * :mksession!
@@ -71,6 +68,7 @@ fun! CurDirShell()
 endfun
 fun! FindGtags(path)
     if filereadable("GTAGS")
+        silent !gtags -i
         cs add GTAGS
         return 0
     else
@@ -92,8 +90,14 @@ fun! AddCs()
         endif
     endif
 endfun
+fun! UpdateTags()
+    TlistUpdate
+    if cscope_connection() != 0
+        silent !gtags --single-update %
+    endif
+endfun
 au BufRead *.cxx,*.cc,*.cpp,*.c,*.hpp,*.h,Makefile*,makefile* call AddCs()
-au BufRead,BufWritePost *.cxx,*.cc,*.cpp,*.c,*.hpp,*.h,Makefile*,makefile* TlistUpdate
+au BufRead,BufWritePost *.cxx,*.cc,*.cpp,*.c,*.hpp,*.h call UpdateTags()
 au BufRead * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 cmap <C-V> <C-R>+
 imap <C-A> <C-O>^
