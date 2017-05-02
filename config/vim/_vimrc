@@ -93,6 +93,7 @@ fun! AddCs()
     endif
 endfun
 au BufRead *.cxx,*.cc,*.cpp,*.c,*.hpp,*.h,Makefile*,makefile* call AddCs()
+au BufWritePost *.cxx,*.cc,*.cpp,*.c,*.hpp,*.h,Makefile*,makefile* TlistUpdate
 au BufRead * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 cmap <C-V> <C-R>+
 imap <C-A> <C-O>^
