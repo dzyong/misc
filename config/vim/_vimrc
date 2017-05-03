@@ -68,7 +68,6 @@ fun! CurDirShell()
 endfun
 fun! FindGtags(path)
     if filereadable("GTAGS")
-        silent !gtags -i
         cs add GTAGS
         return 0
     else
@@ -96,6 +95,9 @@ fun! UpdateTags()
         silent !gtags --single-update %
     endif
 endfun
+if filereadable("GTAGS")
+    cs add GTAGS
+endif
 au BufRead *.cxx,*.cc,*.cpp,*.c,*.hpp,*.h,Makefile*,makefile* call AddCs()
 au BufRead,BufWritePost *.cxx,*.cc,*.cpp,*.c,*.hpp,*.h call UpdateTags()
 au BufRead * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -123,7 +125,7 @@ nmap <C-F>f :cs find g
 nmap <C-F>g :cs find g <C-R><C-W>
 nmap <C-F>i :cs find f <C-R><C-F>
 nmap <C-F>s :cs find s <C-R><C-W>
-nmap <C-G> :!global -u<CR>
+nmap <C-G> :silent !global -u<CR>
 nmap <C-L> :TlistToggle<CR>
 nmap <C-N> :e %:h<CR>
 nmap <C-R> :redo<CR>
