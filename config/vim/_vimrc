@@ -62,6 +62,25 @@ fun! CurDirShell()
     endif
     cd -
 endfun
+fun! FindSession()
+    if filereadable("Session.vim")
+        source Session.vim
+        au VimLeave * :mksession!
+    else
+        let lpath = getcwd()
+        cd ..
+        if lpath == getcwd()
+            return -1
+        endif
+        return FindSession()
+    endif
+endfun
+fun! AddSession()
+    let path = getcwd()
+    if FindSession() == -1
+        exec "cd" path
+    endif
+endfun
 fun! FindGtags()
     if filereadable("GTAGS")
         cs add GTAGS
@@ -85,31 +104,11 @@ fun! AddCs()
         endif
     endif
 endfun
-fun! UpdateTags()
-    TlistUpdate
-    if cscope_connection() != 0
-        silent !gtags --single-update %
-    endif
-endfun
-fun! FindSession()
-    if filereadable("Session.vim")
-        source Session.vim
-        au VimLeave * :mksession!
-    else
-        let lpath = getcwd()
-        cd ..
-        if lpath == getcwd()
-            return -1
-        endif
-        return FindSession()
-    endif
-endfun
 if filereadable("GTAGS")
     cs add GTAGS
 endif
-call FindSession()
 au BufRead *.cxx,*.cc,*.cpp,*.c,*.hpp,*.h,Makefile*,makefile* call AddCs()
-au BufRead,BufWritePost *.cxx,*.cc,*.cpp,*.c,*.hpp,*.h call UpdateTags()
+au BufRead,BufWritePost *.cxx,*.cc,*.cpp,*.c,*.hpp,*.h TlistUpdate
 au BufRead * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 cmap <C-V> <C-R>+
 imap <C-A> <C-O>^
@@ -135,7 +134,8 @@ nmap <C-F>f :cs find g
 nmap <C-F>g :cs find g <C-R><C-W>
 nmap <C-F>i :cs find f <C-R><C-F>
 nmap <C-F>s :cs find s <C-R><C-W>
-nmap <C-G> :silent !global -u<CR>
+nmap <C-G>g :!global -u<CR>
+nmap <C-G>s :call AddSession()<CR>
 nmap <C-L> :TlistToggle<CR>
 nmap <C-N> :e %:h<CR>
 nmap <C-R> :redo<CR>
