@@ -132,7 +132,7 @@ nmap <C-D> :!start /B echo ^<head^>^<meta charset="utf-8"^>^</head^> >\%TMP\%/%:
 nmap <C-E> $
 nmap <C-F>f :cs find g 
 nmap <C-F>g :cs find g <C-R><C-W>
-nmap <C-F>i :cs find f <C-R><C-F>
+nmap <C-F>c :cs find c <C-R><C-F>
 nmap <C-F>s :cs find s <C-R><C-W>
 nmap <C-G>g :!global -u<CR>
 nmap <C-G>s :call AddSession()<CR>
