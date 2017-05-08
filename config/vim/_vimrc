@@ -81,9 +81,21 @@ fun! AddSession()
         exec "cd" path
     endif
 endfun
-fun! FindGtags()
+fun! FindTags()
     if filereadable("GTAGS")
+        nmap <C-G>g :!global -u<CR>
         cs add GTAGS
+        return 0
+    elseif filereadable("cscope.out")
+        nmap <C-G>g :!cscope -iUR<CR>
+        set cscopeprg=cscope
+        cs add cscope.out
+        return 0
+    else
+        return -1
+endfun
+fun! FindGtags()
+    if FindTags() == 0
         return 0
     else
         let lpath = getcwd()
@@ -104,9 +116,7 @@ fun! AddCs()
         endif
     endif
 endfun
-if filereadable("GTAGS")
-    cs add GTAGS
-endif
+call FindTags()
 au BufRead *.cxx,*.cc,*.cpp,*.c,*.hpp,*.h,Makefile*,makefile* call AddCs()
 au BufRead,BufWritePost *.cxx,*.cc,*.cpp,*.c,*.hpp,*.h TlistUpdate
 au BufRead * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -134,7 +144,6 @@ nmap <C-F>f :cs find g
 nmap <C-F>g :cs find g <C-R><C-W>
 nmap <C-F>c :cs find c <C-R><C-W>
 nmap <C-F>s :cs find s <C-R><C-W>
-nmap <C-G>g :!global -u<CR>
 nmap <C-G>s :call AddSession()<CR>
 nmap <C-L> :TlistToggle<CR>
 nmap <C-N> :e %:h<CR>
