@@ -90,9 +90,13 @@ fun! FindTags()
         nmap <C-G>g :!cscope -iUR<CR>
         set cscopeprg=cscope
         cs add cscope.out
+        if filereadable("cscope.project")
+            source cscope.project
+        endif
         return 0
     else
         return -1
+    endif
 endfun
 fun! FindGtags()
     if FindTags() == 0
