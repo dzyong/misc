@@ -33,7 +33,7 @@ else
     if has('win32')
         set guifont=Consolas:h15:cANSI
     elseif has('unix')
-        set guifont=Monospace\ 15
+        set guifont=Droid\ Sans\ Mono\ 15
     endif
     set mouse+=a
     nmap <C-RightMouse> <C-O>
@@ -120,9 +120,13 @@ fun! AddCs()
         endif
     endif
 endfun
+fun! UpdateSingleFileTag()
+    TlistUpdate
+    silent !global --single-update %
+endfun
 call FindTags()
 au BufRead *.cxx,*.cc,*.cpp,*.c,*.hpp,*.h,Makefile*,makefile* call AddCs()
-au BufRead,BufWritePost *.cxx,*.cc,*.cpp,*.c,*.hpp,*.h TlistUpdate
+au BufRead,BufWritePost *.cxx,*.cc,*.cpp,*.c,*.hpp,*.h call UpdateSingleFileTag()
 au BufRead * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 cmap <C-V> <C-R>+
 imap <C-A> <C-O>^
