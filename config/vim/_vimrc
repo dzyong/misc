@@ -121,9 +121,11 @@ fun! AddCs()
     endif
 endfun
 fun! UpdateSingleFileTag()
-    TlistUpdate
-    if cscope_connection() != 0
-        silent !global --single-update %
+    if has('unix')
+        TlistUpdate
+        if cscope_connection() != 0
+            silent !global --single-update %
+        endif
     endif
 endfun
 call FindTags()
