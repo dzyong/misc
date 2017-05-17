@@ -122,7 +122,9 @@ fun! AddCs()
 endfun
 fun! UpdateSingleFileTag()
     TlistUpdate
-    silent !global --single-update %
+    if cscope_connection() != 0
+        silent !global --single-update %
+    endif
 endfun
 call FindTags()
 au BufRead *.cxx,*.cc,*.cpp,*.c,*.hpp,*.h,Makefile*,makefile* call AddCs()
