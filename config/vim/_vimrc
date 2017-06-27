@@ -11,7 +11,7 @@ set nobackup
 set noswapfile
 set undofile
 set undodir=~/tmp
-set wrap
+set nowrap
 set laststatus=2
 set statusline=%F%m%r\ (%l,\ %c)\ %p%%
 set smarttab
@@ -49,7 +49,6 @@ let g:ctrlp_working_path_mode = 0
 let g:ctrlp_lazy_update = 1
 let g:ctrlp_max_files = 0
 let g:ctrlp_extensions = ['funky']
-let g:winManagerWindowLayout = "TagList,FileExplorer"
 fun! CurDirShell()
     cd %:h
     if !has("gui_running")
@@ -138,7 +137,8 @@ imap <C-A> <C-O>^
 imap <C-B> <C-C><C-B>
 imap <C-D> <C-O><C-D>
 imap <C-E> <C-O>$
-imap <C-L> <C-O>:WMToggle<CR>
+imap <C-L> <C-O>:TlistToggle<CR>
+imap <C-N> <C-C>:e %:h<CR>
 imap <C-R> <C-O>:redo<CR>
 imap <C-S> <C-O>:w<CR>
 imap <C-U> <C-O>:undo<CR>
@@ -149,7 +149,7 @@ nmap <C-A> ^
 nmap <C-B> :CtrlPMRUFiles<CR>
 nmap <C-C>c :cclose<CR>
 nmap <C-C>n :cnext<CR>
-nmap <C-C>o :copen<CR>
+nmap <C-C>o :copen 5<CR>
 nmap <C-C>p :cprevious<CR>
 nmap <C-D> :!start /B echo ^<head^>^<meta charset="utf-8"^>^</head^> >\%TMP\%/%:t.html&&markdown % >>\%TMP\%/%:t.html&&\%TMP\%/%:t.html<CR><CR>
 nmap <C-E> $
@@ -158,7 +158,7 @@ nmap <C-F>g :cs find g <C-R><C-W>
 nmap <C-F>c :cs find c <C-R><C-W>
 nmap <C-F>s :cs find s <C-R><C-W>
 nmap <C-G>s :call AddSession()<CR>
-nmap <C-L> :WMToggle<CR>
+nmap <C-L> :TlistToggle<CR>
 nmap <C-N> :e %:h<CR>
 nmap <C-R> :redo<CR>
 nmap <C-S> :w<CR>
