@@ -138,7 +138,6 @@ imap <C-B> <C-C><C-B>
 imap <C-D> <C-O><C-D>
 imap <C-E> <C-O>$
 imap <C-L> <C-O>:TlistToggle<CR>
-imap <C-N> <C-C>:e %:h<CR>
 imap <C-R> <C-O>:redo<CR>
 imap <C-S> <C-O>:w<CR>
 imap <C-U> <C-O>:undo<CR>
