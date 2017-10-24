@@ -22,6 +22,7 @@ set autoindent
 set autoread
 set showcmd
 set backspace=indent,eol,start
+set path=path+**
 set fileencodings=utf-8,gb2312,cp936
 set termencoding=utf-8
 set encoding=utf-8
