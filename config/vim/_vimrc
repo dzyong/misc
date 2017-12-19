@@ -122,7 +122,7 @@ fun! AddCs()
     endif
 endfun
 fun! UpdateSingleFileTag()
-    if has('unix')
+    if bufwinnr("__Tag_List__") != -1 && has('unix')
         TlistUpdate
         if cscope_connection() != 0
             silent !global --single-update %
