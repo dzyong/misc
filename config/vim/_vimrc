@@ -29,16 +29,16 @@ set encoding=utf-8
 set cm=blowfish2
 set updatetime=1000
 if !has("gui_running")
-    set mouse-=a
+  set mouse-=a
 else
-    if has('win32')
-        set guifont=Consolas:h15:cANSI
-    elseif has('unix')
-        set guifont=Droid\ Sans\ Mono\ 15
-    endif
-    set mouse+=a
-    nmap <C-RightMouse> <C-O>
-    execute "cd ".expand('%.h')
+  if has('win32')
+    set guifont=Consolas:h14:cANSI
+  elseif has('unix')
+    set guifont=DejaVu\ Sans\ Mono\ 14
+  endif
+  set mouse+=a
+  nmap <C-RightMouse> <C-O>
+  execute "cd ".expand('%.h')
 endif
 syntax on
 filetype plugin indent on
@@ -52,83 +52,85 @@ let g:ctrlp_lazy_update = 1
 let g:ctrlp_max_files = 0
 let g:ctrlp_extensions = ['funky']
 fun! CurDirShell()
-    cd %:h
-    if !has("gui_running")
-        shell
+  cd %:h
+  if !has("gui_running")
+    shell
+  else
+    if has('win32')
+      silent shell
     else
-        if has('win32')
-            silent shell
-        else
-            shell
-        endif
+      shell
     endif
-    cd -
+  endif
+  cd -
 endfun
 fun! FindSession()
-    if filereadable("Session.vim")
-        source Session.vim
-        au VimLeave * :mksession!
-    else
-        let lpath = getcwd()
-        cd ..
-        if lpath == getcwd()
-            return -1
-        endif
-        return FindSession()
+  if filereadable("Session.vim")
+    source Session.vim
+    au VimLeave * :mksession!
+  else
+    let lpath = getcwd()
+    cd ..
+    if lpath == getcwd()
+      return -1
     endif
+    return FindSession()
+  endif
 endfun
 fun! AddSession()
-    let path = getcwd()
-    if FindSession() == -1
-        exec "cd" path
-    endif
+  let path = getcwd()
+  if FindSession() == -1
+    exec "cd" path
+  endif
 endfun
 fun! FindTags()
-    if filereadable("GTAGS")
-        nmap <C-G>g :!global -u<CR>
-        cs add GTAGS
-        return 0
-    elseif filereadable("cscope.out")
-        nmap <C-G>g :!cscope -iUR<CR>
-        set cscopeprg=cscope
-        cs add cscope.out
-        if filereadable("cscope.project")
-            source cscope.project
-        endif
-        return 0
-    else
-        return -1
+  if filereadable("GTAGS")
+    nmap <C-G>g :!global -u<CR>
+    cs add GTAGS
+    return 0
+  elseif filereadable("cscope.out")
+    nmap <C-G>g :!cscope -iUR<CR>
+    set cscopeprg=cscope
+    cs add cscope.out
+    if filereadable("cscope.project")
+      source cscope.project
     endif
+    return 0
+  else
+    return -1
+  endif
 endfun
 fun! FindGtags()
-    if FindTags() == 0
-        return 0
-    else
-        let lpath = getcwd()
-        cd ..
-        if lpath == getcwd()
-            return -1
-        endif
-        return FindGtags()
+  if FindTags() == 0
+    return 0
+  else
+    let lpath = getcwd()
+    cd ..
+    if lpath == getcwd()
+      return -1
     endif
+    return FindGtags()
+  endif
 endfun
 fun! AddCs()
-    if isdirectory(expand("%:p:h"))
-        if cscope_connection() == 0
-            cd %:h
-            if FindGtags() == -1
-                cd %:h
-            endif
-        endif
+  if isdirectory(expand("%:p:h"))
+    if cscope_connection() == 0
+      cd %:h
+      if FindGtags() == -1
+        cd %:h
+      endif
     endif
+  endif
 endfun
 fun! UpdateSingleFileTag()
-    if bufwinnr("__Tag_List__") != -1 && has('unix')
-        TlistUpdate
-        if cscope_connection() != 0
-            silent !global --single-update %
-        endif
+  if has('unix')
+    if bufwinnr("__Tag_List__") != -1
+      TlistUpdate
     endif
+    if cscope_connection() != 0
+      silent !global --single-update %
+    endif
+  endif
 endfun
 call FindTags()
 au BufRead *.cxx,*.cc,*.cpp,*.c,*.hpp,*.h,Makefile*,makefile* call AddCs()
