@@ -38,6 +38,7 @@ else
     endif
     set mouse+=a
     nmap <C-RightMouse> <C-O>
+    execute "cd ".expand('%.h')
 endif
 syntax on
 filetype plugin indent on
