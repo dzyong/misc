@@ -9,6 +9,7 @@
 (recentf-mode t)
 (global-set-key (kbd "<f2>") 'recentf-open-files)
 (global-set-key (kbd "<f3>") 'list-matching-lines)
+(global-set-key (kbd "<f4>") 'imenu)
 (global-set-key (kbd "<f5>") 'sr-speedbar-toggle)
 (setq-default indent-tabs-mode nil)
 (setq c-basic-offset 4)
@@ -24,4 +25,3 @@
 (setq large-file-warning-threshold nil)
 (cua-mode t)
 (setq cua-keep-region-after-copy t)
-(add-hook 'c-mode-hook 'imenu-add-menubar-index)
