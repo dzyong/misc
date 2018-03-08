@@ -18,7 +18,7 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 (add-hook 'c-mode-common-hook 'gtags-mode)
 (setq gtags-suggested-key-mapping t)
-(load "gtags")
+(require 'gtags)
 (set-default-font "-outline-Microsoft Yahei UI-normal-normal-normal-sans-13-*-*-*-p-*-iso8859-1")
 (require 'sr-speedbar)
 (setq large-file-warning-threshold nil)
