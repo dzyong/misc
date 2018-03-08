@@ -5,7 +5,6 @@
 (setq make-backup-files nil)
 (setq auto-save-default nil)
 (require 'recentf)
-(require 'unicad)
 (recentf-mode t)
 (global-set-key (kbd "<f2>") 'recentf-open-files)
 (global-set-key (kbd "<f3>") 'list-matching-lines)
