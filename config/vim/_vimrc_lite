@@ -18,12 +18,12 @@ set smartindent
 set showcmd
 let GtagsCscope_Auto_Map = 1
 set cscopetag
-nmap <F5> :GtagsCscope<CR>
 let Tlist_Show_One_File=1
 let Tlist_Exit_OnlyWindow=1
 let winManagerWindowLayout = "TagList,FileExplorer"
-nmap <C-l> :WMToggle<CR>
-let miniBufExplUseSingleClick = 1
+nmap <F2> :MRU<CR>
+nmap <F4> :GtagsCscope<CR>
+nmap <F5> :WMToggle<CR>
 if has("gui_running")
     set cursorline
     if has('unix')
