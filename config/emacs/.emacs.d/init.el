@@ -8,7 +8,7 @@
 (recentf-mode t)
 (global-set-key (kbd "<f2>") 'recentf-open-files)
 (global-set-key (kbd "<f3>") 'list-matching-lines)
-(global-set-key (kbd "<f4>") 'imenu)
+(global-set-key (kbd "<f4>") 'gtags-parse-file)
 (global-set-key (kbd "<f5>") 'sr-speedbar-toggle)
 (setq-default indent-tabs-mode nil)
 (setq c-basic-offset 4)
