@@ -1,0 +1,41 @@
+if has('win32')
+    let Tlist_Ctags_Cmd = "E:/bin/ctags.exe"
+endif
+set shiftwidth=2
+set ts=2
+set expandtab
+set hlsearch
+set ignorecase
+set smartcase
+set incsearch
+set noswapfile
+set udf
+set udir = ~/.tmp
+set nobk
+set ar
+set autoindent
+set smartindent
+set showcmd
+let GtagsCscope_Auto_Map = 1
+set cscopetag
+nmap <F5> :GtagsCscope<CR>
+let Tlist_Show_One_File=1
+let Tlist_Exit_OnlyWindow=1
+let winManagerWindowLayout = "TagList,FileExplorer"
+nmap <C-l> :WMToggle<CR>
+let miniBufExplUseSingleClick = 1
+if has("gui_running")
+    set cursorline
+    if has('unix')
+        set guifont=DejaVu\ Sans\ Mono\ 14
+    else
+        set guifont=DejaVu_Sans_Mono:h14
+    endif
+    set linespace=2
+    let chp = expand('%.h')
+    if chp > 0
+        cd chp
+    endif
+else
+    set nocursorline
+endif
