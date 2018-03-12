@@ -4,6 +4,8 @@
 (setq inhibit-startup-message t)
 (setq make-backup-files nil)
 (setq auto-save-default nil)
+(setq create-lockfiles nil)
+(global-auto-revert-mode t)
 (require 'recentf)
 (recentf-mode t)
 (global-set-key (kbd "<f2>") 'recentf-open-files)
