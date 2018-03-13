@@ -34,4 +34,5 @@
 (prefer-coding-system 'gb2312)
 (setq default-buffer-file-coding-system 'utf-8-unix)
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+(setq mouse-wheel-progressive-speed nil)
 (setq scroll-step 1)
