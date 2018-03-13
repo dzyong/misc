@@ -33,4 +33,5 @@
 (setq ring-bell-function 'ignore)
 (prefer-coding-system 'gb2312)
 (setq default-buffer-file-coding-system 'utf-8-unix)
-(setq scroll-conservatively 1000)
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+(setq scroll-step 1)
