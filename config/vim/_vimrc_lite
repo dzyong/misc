@@ -16,6 +16,7 @@ set ar
 set autoindent
 set smartindent
 set showcmd
+set path+=**
 let GtagsCscope_Auto_Map = 1
 set cscopetag
 let Tlist_Show_One_File=1
