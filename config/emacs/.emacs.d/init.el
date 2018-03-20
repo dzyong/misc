@@ -33,3 +33,5 @@
 (prefer-coding-system 'gb2312)
 (setq default-buffer-file-coding-system 'utf-8-unix)
 (setq mouse-wheel-progressive-speed nil)
+(set-background-color "gray25")
+(set-foreground-color "white")
