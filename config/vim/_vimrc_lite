@@ -10,7 +10,7 @@ set smartcase
 set incsearch
 set noswapfile
 set udf
-set udir = ~/.tmp
+set udir = "~/.tmp"
 set nobk
 set ar
 set autoindent
