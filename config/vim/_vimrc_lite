@@ -16,12 +16,13 @@ set ar
 set autoindent
 set smartindent
 set showcmd
+syntax on
 set path+=**
 let GtagsCscope_Auto_Map = 1
 set cscopetag
 let Tlist_Show_One_File=1
 let Tlist_Exit_OnlyWindow=1
-nmap <C-H> :bro ol<CR>
+nmap <C-H> :filt  bro ol<C-Left><C-Left><Left>
 nmap <F5> :GtagsCscope<CR>
 nmap <C-L> :TlistToggle<CR>
 au BufRead * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
