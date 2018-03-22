@@ -1,5 +1,6 @@
 if has('win32')
     let Tlist_Ctags_Cmd = "E:/bin/ctags.exe"
+    let $PATH="E:/bin/msys2/usr/bin;".$PATH
 endif
 set shiftwidth=2
 set ts=2
@@ -9,8 +10,9 @@ set ignorecase
 set smartcase
 set incsearch
 set noswapfile
+set backspace=indent,eol,start
 set udf
-set udir = "~/.tmp"
+set udir=~/.tmp
 set nobk
 set ar
 set autoindent
@@ -22,7 +24,7 @@ let GtagsCscope_Auto_Map = 1
 set cscopetag
 let Tlist_Show_One_File=1
 let Tlist_Exit_OnlyWindow=1
-nmap <C-H> :filt  bro ol<C-Left><C-Left><Left>
+nmap <C-H> :bro ol<CR>
 nmap <F5> :GtagsCscope<CR>
 nmap <C-L> :TlistToggle<CR>
 au BufRead * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -41,3 +43,32 @@ if has("gui_running")
 else
     set nocursorline
 endif
+function! Find(name)
+    let l:list=system("find . -iname '".a:name."' | awk '{print NR\"\t\"$0}'")
+    let l:num=strlen(substitute(l:list, "[^\n]", "", "g"))
+    if l:num < 1
+        echo "'".a:name."' not found"
+        return
+    endif
+    if l:num != 1
+        echo l:list
+        let l:input=input("Which ? (CR=nothing)\n")
+        if strlen(l:input)==0
+            return
+        endif
+        if strlen(substitute(l:input, "[0-9]", "", "g"))>0
+            echo "Not a number"
+            return
+        endif
+        if l:input<1 || l:input>l:num
+            echo "Out of range"
+            return
+        endif
+        let l:line=matchstr("\n".l:list, "\n".l:input."\t[^\n]*")
+    else
+        let l:line=l:list
+    endif
+    let l:line=substitute(l:line, "^[^\t]*\t./", "", "")
+    execute ":e ".l:line
+endfunction
+command! -nargs=1 F :call Find("<args>")
