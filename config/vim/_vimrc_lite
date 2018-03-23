@@ -1,5 +1,5 @@
 if has('win32')
-    let Tlist_Ctags_Cmd = "E:/bin/ctags.exe"
+    let Tlist_Ctags_Cmd="E:/bin/ctags.exe"
     let $PATH="E:/bin/msys2/usr/bin;".$PATH
 endif
 set shiftwidth=2
@@ -18,13 +18,14 @@ set ar
 set autoindent
 set smartindent
 set showcmd
+set laststatus=2
 syntax on
 set path+=**
-let GtagsCscope_Auto_Map = 1
+let GtagsCscope_Auto_Map=1
 set cscopetag
 let Tlist_Show_One_File=1
 let Tlist_Exit_OnlyWindow=1
-nmap <C-H> :bro ol
+nmap <C-H> :ls<CR>:b
 nmap <F5> :GtagsCscope<CR>
 nmap <C-L> :TlistToggle<CR>
 au BufRead * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -36,39 +37,57 @@ if has("gui_running")
         set guifont=DejaVu_Sans_Mono:h14
     endif
     set linespace=2
-    let chp = expand('%.h')
+    let chp=expand('%.h')
     if chp > 0
         cd chp
     endif
 else
     set nocursorline
 endif
-function! Find(name)
-    let l:list=system("find . -iname '".a:name."' | awk '{print NR\"\t\"$0}'")
-    let l:num=strlen(substitute(l:list, "[^\n]", "", "g"))
-    if l:num < 1
-        echo "'".a:name."' not found"
-        return
-    endif
-    if l:num != 1
-        echo l:list
-        let l:input=input("Which ? (CR=nothing)\n")
-        if strlen(l:input)==0
-            return
-        endif
-        if strlen(substitute(l:input, "[0-9]", "", "g"))>0
-            echo "Not a number"
-            return
-        endif
-        if l:input<1 || l:input>l:num
-            echo "Out of range"
-            return
-        endif
-        let l:line=matchstr("\n".l:list, "\n".l:input."\t[^\n]*")
+function! Find(...)
+  let path="."
+  if a:0==2
+    let path=a:2
+  endif
+  let l:list=system("find ".path." -iname '".a:1."'")
+  let l:num=strlen(substitute(l:list, "[^\n]", "", "g"))
+  if l:num < 1
+    echo "'".a:1."' not found"
+    return
+  elseif l:num == 1
+    exe "open " . substitute(l:list, "\n", "", "g")
+  else
+    let tmpfile=tempname()
+    exe "redir! > " . tmpfile
+    silent echon l:list
+    redir END
+    let old_efm=&efm
+    set efm=%f
+    if exists(":cgetfile")
+        execute "silent! cgetfile " . tmpfile
     else
-        let l:line=l:list
+        execute "silent! cfile " . tmpfile
     endif
-    let l:line=substitute(l:line, "^[^\t]*\t./", "", "")
-    execute ":e ".l:line
+    let &efm=old_efm
+    botright copen
+    call delete(tmpfile)
+  endif
 endfunction
-command! -nargs=1 F :call Find("<args>")
+command! -nargs=* F :call Find(<f-args>)
+function! MRU()
+    let tmpfile = tempname()
+    exe "redir! > " . tmpfile
+    silent oldfiles
+    redir END
+    let old_efm = &efm
+    set efm=%*[0-9]:\ %f
+    if exists(":cgetfile")
+        execute "silent! cgetfile " . tmpfile
+    else
+        execute "silent! cfile " . tmpfile
+    endif
+    let &efm = old_efm
+    botright copen
+    call delete(tmpfile)
+endfunction
+command! -nargs=0 H :call MRU()
