@@ -26,7 +26,6 @@ set cscopetag
 let Tlist_Show_One_File=1
 let Tlist_Exit_OnlyWindow=1
 set updatetime=500
-nmap <C-H> :ls<CR>:b
 nmap <F5> :GtagsCscope<CR>
 nmap <C-L> :TlistToggle<CR>
 au BufRead * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -78,10 +77,12 @@ command! -nargs=* F :call Find(<f-args>)
 function! MRU()
     let tmpfile = tempname()
     exe "redir! > " . tmpfile
+    silent ls
     silent oldfiles
     redir END
     let old_efm = &efm
     set efm=%*[0-9]:\ %f
+    set efm+=%s\"%f\"%pline\ %l
     if exists(":cgetfile")
         execute "silent! cgetfile " . tmpfile
     else
@@ -91,4 +92,4 @@ function! MRU()
     botright copen
     call delete(tmpfile)
 endfunction
-command! -nargs=0 H :call MRU()
+nmap <C-H> :call MRU()<CR>
