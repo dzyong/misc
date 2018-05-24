@@ -23,7 +23,7 @@
 (which-function-mode)
 (column-number-mode)
 (fset 'yes-or-no-p 'y-or-n-p)
-(add-hook 'c-mode-common-hook '(lambda()(require 'gtags)(gtags-mode)(require 'taglist)(local-set-key (kbd "<f4>") 'taglist-list-tags)))
+(add-hook 'prog-mode-hook '(lambda()(require 'gtags)(gtags-mode)(require 'taglist)(local-set-key (kbd "<f4>") 'taglist-list-tags)))
 (setq gtags-suggested-key-mapping t)
 (setq gtags-auto-update t)
 (if (eq system-type 'windows-nt) (concat (setenv "PATH" "E:/bin/msys2/usr/bin;")(getenv "PATH")))
