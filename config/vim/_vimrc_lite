@@ -11,6 +11,7 @@ set smartcase
 set incsearch
 set noswapfile
 set backspace=indent,eol,start
+set fileencodings=utf-8,gb18030
 set udf
 set udir=~/.tmp
 set nobk
