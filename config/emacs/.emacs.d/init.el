@@ -27,7 +27,7 @@
 (setq gtags-suggested-key-mapping t)
 (setq gtags-auto-update t)
 (if (eq system-type 'windows-nt) (concat (setenv "PATH" "E:/bin/msys2/usr/bin;")(getenv "PATH")))
-(if (display-graphic-p)(progn (if (eq system-type 'windows-nt) (progn (setq enfont "Courier New")(setq cnfont "Microsoft Yahei")) (progn (setq enfont "DejaVu Sans Mono")(setq cnfont "WenQuanYi Bitmap Song"))) (set-face-attribute 'default nil :font enfont :height 145) (set-fontset-font (frame-parameter nil 'font) 'han (font-spec :family cnfont :size 19))))
+(if (display-graphic-p)(progn (if (eq system-type 'windows-nt) (progn (setq enfont "Courier New")(setq cnfont "Microsoft Yahei")) (progn (setq enfont "DejaVu Sans Mono")(setq cnfont "WenQuanYi Bitmap Song"))) (set-face-attribute 'default nil :font enfont :height 128) (set-fontset-font (frame-parameter nil 'font) 'han (font-spec :family cnfont :size 19))))
 (setq large-file-warning-threshold nil)
 (setq ring-bell-function 'ignore)
 (prefer-coding-system 'gb2312)
