@@ -19,6 +19,7 @@
 (setq-default tab-width 4)
 (c-set-offset 'innamespace 0)
 (show-paren-mode t)
+(set-default 'truncate-lines t)
 (setq-default cursor-type 'bar)
 (which-function-mode)
 (column-number-mode)
