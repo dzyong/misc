@@ -1,5 +1,5 @@
-findcmd="find"
-findhistory=""
+local findcmd=""
+local findhistory=""
 
 function Find(cmd)
   findcmd=cmd
