@@ -7,9 +7,7 @@ set suspend
 unset locking
 set tabsize 2
 set tabstospaces
-bind ^S savefile main
 
-#include syntax highlighting
 include "/usr/share/nano-syntax-highlighting/apacheconf.nanorc"
 include "/usr/share/nano-syntax-highlighting/arduino.nanorc"
 include "/usr/share/nano-syntax-highlighting/asciidoc.nanorc"
