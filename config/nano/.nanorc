@@ -3,6 +3,7 @@ set morespace
 set smooth
 set multibuffer
 set nohelp
+set nowrap
 set suspend
 unset locking
 set tabsize 2
