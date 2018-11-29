@@ -96,7 +96,7 @@ endfunction
 nmap <C-H> :call MRU()<CR>
 function! List_Tag()
   let tmpfile = tempname()
-  let l:list=system("global --result grep -f ".expand('%'))
+  let l:list=system("global -f ".expand('%'))
   let l:num=strlen(substitute(l:list, "[^\n]", "", "g"))
   if l:num < 1
     return
@@ -105,11 +105,14 @@ function! List_Tag()
     exe "redir! > " . tmpfile
     silent echon l:list
     redir END
+    let old_efm = &efm
+    set efm=%m\ %l\ %f\ %s
     if exists(":cgetfile")
         execute "silent! cgetfile " . tmpfile
     else
         execute "silent! cfile " . tmpfile
     endif
+    let &efm = old_efm
     botright copen
     call delete(tmpfile)
   endif
