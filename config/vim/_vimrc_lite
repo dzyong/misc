@@ -29,7 +29,7 @@ let Tlist_Exit_OnlyWindow=1
 set updatetime=500
 nmap <F5> :GtagsCscope<CR>
 nmap <C-L> :TlistToggle<CR>
-nmap <C-E> :exec expand('%:h')?'e .':'e %:h'<CR>
+nmap <C-E> :exec strlen(expand('%'))==0?'e .':'e %:h'<CR>
 au BufRead * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 if has("gui_running")
     set cursorline
@@ -39,7 +39,7 @@ if has("gui_running")
         set guifont=DejaVu_Sans_Mono:h14
     endif
     set linespace=2
-    let chp=expand('%.h')
+    let chp=expand('%:h')
     if chp > 0
         cd chp
     endif
