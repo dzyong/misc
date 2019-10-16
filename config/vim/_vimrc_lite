@@ -119,3 +119,18 @@ function! List_Tag()
   endif
 endfunction
 command! -nargs=0 T :call List_Tag()
+fun! Git()
+    cd %:h
+    silent !git add %
+    if !v:shell_error
+        silent !git commit -m "vim commit"
+        let shell_error = v:shell_error
+        silent !git pull --rebase
+        if ((!v:shell_error)&&(!shell_error))
+            silent !git push
+        endif
+    endif
+    !echo %:p
+    silent cd -
+endfun
+command -nargs=0 Git call Git()
