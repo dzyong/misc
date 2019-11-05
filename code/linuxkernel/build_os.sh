@@ -39,11 +39,7 @@ fi
 if [ ${DEBUG} == "true" ];then
     echo "Compile "${ARCH}" kernel with "${CROSS_COMPILE}"gcc"
 fi
-if [ ${ARCH} == "arm64" ];then
-  make ARCH=${ARCH} defconfig
-else
-  make ARCH=${ARCH} versatile_defconfig
-fi
+make ARCH=${ARCH} defconfig
 make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE}
 INIT_RD=${CURDIR}"/cpio/"
 rm -rf ${INIT_RD}
