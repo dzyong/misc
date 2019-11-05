@@ -29,7 +29,7 @@ ARCH=${ARCH-"arm64"}
 if [ ${ARCH} == "arm64" ];then
     CROSS_COMPILE="aarch64-linux-gnu-"
 else
-    CROSS_COMPILE="arm-linux-gnueabihf-"
+    CROSS_COMPILE="arm-linux-gnueabi-"
 fi
 cd ${LINUX_KERNEL_DIR}
 FORCE_REBUILD="false"
@@ -108,3 +108,4 @@ cat > etc/inittab << EOF
 EOF
 find . | cpio -o -Hnewc |gzip -9 > ${OUT}/image.cpio.gz
 #qemu-system-aarch64 -cpu cortex-a53 -smp 2 -m 512M -kernel Image.gz -nographic -initrd image.cpio.gz -M virt
+#qemu-system-arm -cpu cortex-a15 -m 512M -kernel zImage -nographic -initrd image.cpio.gz -M virt
