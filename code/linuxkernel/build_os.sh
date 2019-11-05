@@ -5,15 +5,15 @@ CURDIR=`pwd`
 LINUX_KERNEL_TAR="linux-4.4.179.tar.xz"
 FORCE_CHECK_SUM="false"
 if [ ! -f ${LINUX_KERNEL_TAR} ];then
-    wget -c https://mirrors.edge.kernel.org/pub/linux/kernel/v4.x/${LINUX_KERNEL_TAR}
+    wget -c https://mirrors.ustc.edu.cn/kernel.org/linux/kernel/v4.x/${LINUX_KERNEL_TAR}
 else
     if [ ${FORCE_CHECK_SUM} == "true" ];then
         KERNEL_SUMS="sha256sums.asc"
         rm -rf ${KERNEL_SUMS}
-        wget -c https://mirrors.edge.kernel.org/pub/linux/kernel/v4.x/${KERNEL_SUMS}
+        wget -c https://mirrors.ustc.edu.cn/kernel.org/linux/kernel/v4.x/${KERNEL_SUMS}
         CHECK_SUM=`grep ${LINUX_KERNEL_TAR} ${KERNEL_SUMS}`
         if [ "`sha256sum ${LINUX_KERNEL_TAR}`" != "${CHECK_SUM}" ];then
-            wget -c https://mirrors.edge.kernel.org/pub/linux/kernel/v4.x/${LINUX_KERNEL_TAR}
+            wget -c https://mirrors.ustc.edu.cn/kernel.org/linux/kernel/v4.x/${LINUX_KERNEL_TAR}
         fi
     fi
 fi
@@ -25,9 +25,11 @@ fi
 if [ ! -d ${LINUX_KERNEL_DIR} ];then
     tar xvf ${LINUX_KERNEL_TAR}
 fi
-ARCH="arm64"
+ARCH=${ARCH-"arm64"}
 if [ ${ARCH} == "arm64" ];then
     CROSS_COMPILE="aarch64-linux-gnu-"
+else
+    CROSS_COMPILE="arm-linux-gnueabihf-"
 fi
 cd ${LINUX_KERNEL_DIR}
 FORCE_REBUILD="false"
@@ -46,7 +48,11 @@ make ARCH=${ARCH} modules_install INSTALL_MOD_PATH=${INIT_RD}
 OUT=${CURDIR}"/out"
 rm -rf ${OUT}
 mkdir ${OUT}
-cp arch/arm64/boot/Image.gz ${OUT}
+if [ ${ARCH} == "arm64" ];then
+  cp arch/arm64/boot/Image.gz ${OUT}
+else
+  cp arch/arm/boot/zImage ${OUT}
+fi
 cd ${CURDIR}
 BUSY_BOX_TAR=busybox-1.30.1.tar.bz2
 if [ ! -f ${BUSY_BOX_TAR} ];then
