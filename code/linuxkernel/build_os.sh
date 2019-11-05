@@ -39,7 +39,11 @@ fi
 if [ ${DEBUG} == "true" ];then
     echo "Compile "${ARCH}" kernel with "${CROSS_COMPILE}"gcc"
 fi
-make ARCH=${ARCH} defconfig
+if [ ${ARCH} == "arm64" ];then
+  make ARCH=${ARCH} defconfig
+else
+  make ARCH=${ARCH} versatile_defconfig
+fi
 make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE}
 INIT_RD=${CURDIR}"/cpio/"
 rm -rf ${INIT_RD}
@@ -108,4 +112,4 @@ cat > etc/inittab << EOF
 EOF
 find . | cpio -o -Hnewc |gzip -9 > ${OUT}/image.cpio.gz
 #qemu-system-aarch64 -cpu cortex-a53 -smp 2 -m 512M -kernel Image.gz -nographic -initrd image.cpio.gz -M virt
-#qemu-system-arm -cpu cortex-a15 -m 512M -kernel zImage -nographic -initrd image.cpio.gz -M versatilepb
+#qemu-system-arm -kernel zImage -nographic -initrd image.cpio.gz -M versatilepb -append "console=ttyAMA0,115200"
