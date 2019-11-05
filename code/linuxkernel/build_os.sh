@@ -108,4 +108,4 @@ cat > etc/inittab << EOF
 EOF
 find . | cpio -o -Hnewc |gzip -9 > ${OUT}/image.cpio.gz
 #qemu-system-aarch64 -cpu cortex-a53 -smp 2 -m 512M -kernel Image.gz -nographic -initrd image.cpio.gz -M virt
-#qemu-system-arm -cpu cortex-a15 -m 512M -kernel zImage -nographic -initrd image.cpio.gz -M virt
+#qemu-system-arm -cpu cortex-a15 -m 512M -kernel zImage -nographic -initrd image.cpio.gz -M versatilepb
