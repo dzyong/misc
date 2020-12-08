@@ -1,4 +1,6 @@
 **Enable gtags for many other languages:**
 ```
-export GTAGSLABEL=pygments
+export GTAGSFORCECPP=1
+export GTAGSLABEL=native-pygments
+export GTAGSCONF=/usr/share/gtags/gtags.conf
 ```
