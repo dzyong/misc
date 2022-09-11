@@ -82,16 +82,36 @@ make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} CONFIG_PREFIX=_install install
 BUSYBOX_INSTALL_DIR=`pwd`"/_install"
 cd ${INIT_RD}
 cp -a ${BUSYBOX_INSTALL_DIR}/* ${INIT_RD}
-ln -s bin/busybox init
+cat > init << EOF
+#!/bin/sh
+mount -a
+echo /sbin/mdev > /proc/sys/kernel/hotplug
+mdev -s
+mount -t ext4 /dev/vda /disk
+exec switch_root /disk /init
+EOF
+chmod +x init
 rm -rf linuxrc
-mkdir etc dev proc sys tmp
-mkdir -p etc/init.d
+mkdir etc dev proc sys tmp disk
 cat > etc/fstab << EOF
 proc  /proc proc  defaults 0 0
 sysfs /sys  sysfs defaults 0 0
 tmpfs /tmp  tmpfs  defaults 0 0
 tmpfs /dev  tmpfs  defaults 0 0
 EOF
+find . | cpio -o -Hnewc |gzip -9 > ${OUT}/image.cpio.gz
+DISK_DIR=${CURDIR}"/disk/"
+rm -rf ${DISK_DIR}
+mkdir ${DISK_DIR}
+cd ${DISK_DIR}
+cp -a ${INIT_RD}/* ${DISK_DIR}
+ln -sf sbin/init init
+rm -rf disk
+EXT_DIR=${CURDIR}/ext
+if [ -d ${EXT_DIR} ];then
+  cp -r ${CURDIR}/ext ./
+fi
+mkdir -p etc/init.d
 cat > etc/init.d/rcS << EOF
 mount -a
 echo /sbin/mdev > /proc/sys/kernel/hotplug
@@ -106,6 +126,13 @@ cat > etc/inittab << EOF
 ::shutdown:/bin/umount -a -r
 ::shutdown:/sbin/swapoff -a
 EOF
-find . | cpio -o -Hnewc |gzip -9 > ${OUT}/image.cpio.gz
+dd if=/dev/zero of=${OUT}/disk.img bs=1M count=32
+mkfs.ext4 ${OUT}/disk.img
+rm -rf ${CURDIR}/mnt
+mkdir ${CURDIR}/mnt
+sudo mount ${OUT}/disk.img ${CURDIR}/mnt
+sudo cp -a ${DISK_DIR}/* ${CURDIR}/mnt/
+sudo umount ${CURDIR}/mnt
 #qemu-system-aarch64 -cpu cortex-a53 -smp 2 -m 512M -kernel Image.gz -nographic -initrd image.cpio.gz -M virt
+#qemu-system-aarch64 -cpu cortex-a53 -smp 2 -m 512M -kernel Image.gz -nographic -M virt -drive file=disk.img -append "root=/dev/vda" -initrd image.cpio.gz
 #qemu-system-arm -kernel zImage -nographic -initrd image.cpio.gz -M versatilepb -append "console=ttyAMA0,115200"
