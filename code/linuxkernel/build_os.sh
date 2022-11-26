@@ -134,5 +134,5 @@ sudo mount ${OUT}/disk.img ${CURDIR}/mnt
 sudo cp -a ${DISK_DIR}/* ${CURDIR}/mnt/
 sudo umount ${CURDIR}/mnt
 #qemu-system-aarch64 -cpu cortex-a53 -smp 2 -m 512M -kernel Image.gz -nographic -initrd image.cpio.gz -M virt
-#qemu-system-aarch64 -cpu cortex-a53 -smp 2 -m 512M -kernel Image.gz -nographic -M virt -drive file=disk.img -append "root=/dev/vda" -initrd image.cpio.gz
+#qemu-system-aarch64 -cpu cortex-a53 -smp 2 -m 512M -kernel Image.gz -nographic -M virt -drive file=disk.img,format=raw -append "root=/dev/vda" -initrd image.cpio.gz
 #qemu-system-arm -kernel zImage -nographic -initrd image.cpio.gz -M versatilepb -append "console=ttyAMA0,115200"
