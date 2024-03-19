@@ -1,6 +1,8 @@
 if has('win32')
     let Tlist_Ctags_Cmd="E:/bin/ctags.exe"
     let $PATH="E:/bin/msys2/usr/bin;".$PATH
+else
+    let Tlist_Ctags_Cmd="/mingw64/bin/ctags"
 endif
 set shiftwidth=2
 set ts=2
@@ -27,6 +29,10 @@ set cscopetag
 let Tlist_Show_One_File=1
 let Tlist_Exit_OnlyWindow=1
 let Tlist_Use_Right_Window=1
+let tlist_dts_settings='dts;p:phandlers;l:labels'
+let tlist_typescript_settings='typescript;m:methods;f:functions'
+let tlist_markdown_settings='markdown;c:chapters;s:sections'
+au BufNewFile,BufRead *.ets,*.ts setf typescript
 set updatetime=500
 nmap <F5> :GtagsCscope<CR>
 nmap <C-L> :TlistToggle<CR>

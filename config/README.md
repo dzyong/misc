@@ -1,6 +1,7 @@
-**Enable gtags for many other languages:**
+**Enable gtags for c++ header:**
 ```
 export GTAGSFORCECPP=1
-export GTAGSLABEL=native-pygments
-export GTAGSCONF=/usr/share/gtags/gtags.conf
+
+**Use particular global**
+export GTAGSGLOBAL=/usr/bin/global
 ```
