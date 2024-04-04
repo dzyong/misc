@@ -32,6 +32,7 @@ let Tlist_Use_Right_Window=1
 let tlist_dts_settings='dts;p:phandlers;l:labels'
 let tlist_typescript_settings='typescript;m:methods;f:functions'
 let tlist_markdown_settings='markdown;c:chapters;s:sections'
+let tlist_rust_settings='rust;f:functions;P:methods'
 au BufNewFile,BufRead *.ets,*.ts setf typescript
 set updatetime=500
 nmap <F5> :GtagsCscope<CR>
