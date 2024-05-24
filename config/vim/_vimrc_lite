@@ -1,9 +1,10 @@
 if has('win32')
     let Tlist_Ctags_Cmd="E:/bin/ctags.exe"
     let $PATH="E:/bin/msys2/usr/bin;".$PATH
-else
+elseif exists('$MSYSTEM')
     let Tlist_Ctags_Cmd="/mingw64/bin/ctags"
 endif
+set background=dark
 set shiftwidth=2
 set ts=2
 set expandtab
@@ -33,12 +34,15 @@ let tlist_dts_settings='dts;p:phandlers;l:labels'
 let tlist_typescript_settings='typescript;m:methods;f:functions'
 let tlist_markdown_settings='markdown;c:chapters;s:sections'
 let tlist_rust_settings='rust;f:functions;P:methods'
+let tlist_cmake_settings='cmake;t:targets;v:variable;f:functions;m:macros'
 au BufNewFile,BufRead *.ets,*.ts setf typescript
 set updatetime=500
 nmap <F5> :GtagsCscope<CR>
 nmap <C-L> :TlistToggle<CR>
 nmap <C-E> :exec strlen(expand('%'))==0?'e .':'e %:h'<CR>
 au BufRead * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+colorscheme desert
+highlight Folded ctermfg=6
 if has("gui_running")
     set cursorline
     if has('unix')
