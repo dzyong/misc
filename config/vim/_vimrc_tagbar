@@ -1,0 +1,157 @@
+let taglist = "tlist"
+if taglist == "tlist"
+  if has('win32')
+      let Tlist_Ctags_Cmd="E:/bin/ctags.exe"
+      let $PATH="E:/bin/msys2/usr/bin;".$PATH
+  elseif exists('$MSYSTEM')
+      let Tlist_Ctags_Cmd="/mingw64/bin/ctags"
+  endif
+  let Tlist_Show_One_File=1
+  let Tlist_Exit_OnlyWindow=1
+  let Tlist_Use_Right_Window=1
+  let tlist_dts_settings='dts;p:phandlers;l:labels'
+  let tlist_typescript_settings='typescript;m:methods;f:functions'
+  let tlist_markdown_settings='markdown;c:chapters;s:sections;S:level 2 sections'
+  let tlist_rust_settings='rust;f:functions;P:methods'
+  let tlist_cmake_settings='cmake;t:targets;v:variable;f:functions;m:macros'
+  let tlist_html_settings='html;I:identifiers'
+  nmap <C-L> :TlistToggle<CR>
+else
+  if exists('$MSYSTEM')
+      let tagbar_ctags_bin = "/mingw64/bin/ctags"
+  endif
+  nmap <C-L> :TagbarToggle<CR>
+endif
+set background=dark
+set shiftwidth=2
+set ts=2
+set expandtab
+set hlsearch
+set ignorecase
+set smartcase
+set incsearch
+set noswapfile
+set backspace=indent,eol,start
+set fileencodings=utf-8,gb18030
+set udf
+set udir=~/.tmp
+set nobk
+set ar
+set autoindent
+set smartindent
+set showcmd
+set laststatus=2
+syntax on
+set path+=**
+let GtagsCscope_Auto_Map=1
+set cscopetag
+au BufNewFile,BufRead *.ets,*.ts setf typescript
+set updatetime=500
+nmap <F5> :GtagsCscope<CR>
+nmap <C-E> :exec strlen(expand('%'))==0?'e .':'e %:h'<CR>
+au BufRead * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+colorscheme desert
+highlight Folded ctermfg=6
+if has("gui_running")
+    set cursorline
+    if has('unix')
+        set guifont=DejaVu\ Sans\ Mono\ 14
+    else
+        set guifont=DejaVu_Sans_Mono:h14
+    endif
+    set linespace=2
+    let chp=expand('%:h')
+    if chp > 0
+        cd chp
+    endif
+else
+    set nocursorline
+endif
+function! Find(...)
+  let path="."
+  if a:0==2
+    let path=a:2
+  endif
+  let l:list=system("find ".path." -iname '".a:1."'")
+  let l:num=strlen(substitute(l:list, "[^\n]", "", "g"))
+  if l:num < 1
+    echo "'".a:1."' not found"
+    return
+  elseif l:num == 1
+    exe "open " . substitute(l:list, "\n", "", "g")
+  else
+    let tmpfile=tempname()
+    exe "redir! > " . tmpfile
+    silent echon l:list
+    redir END
+    let old_efm=&efm
+    set efm=%f
+    if exists(":cgetfile")
+        execute "silent! cgetfile " . tmpfile
+    else
+        execute "silent! cfile " . tmpfile
+    endif
+    let &efm=old_efm
+    botright copen
+    call delete(tmpfile)
+  endif
+endfunction
+command! -nargs=* F :call Find(<f-args>)
+function! MRU()
+    let tmpfile = tempname()
+    exe "redir! > " . tmpfile
+    silent ls
+    silent oldfiles
+    redir END
+    let old_efm = &efm
+    set efm=%*[0-9]:\ %f
+    set efm+=%s\"%f\"%pline\ %l
+    if exists(":cgetfile")
+        execute "silent! cgetfile " . tmpfile
+    else
+        execute "silent! cfile " . tmpfile
+    endif
+    let &efm = old_efm
+    botright copen
+    call delete(tmpfile)
+endfunction
+nmap <C-H> :call MRU()<CR>
+function! List_Tag()
+  let tmpfile = tempname()
+  let l:list=system("global -f ".expand('%'))
+  let l:num=strlen(substitute(l:list, "[^\n]", "", "g"))
+  if l:num < 1
+    return
+  else
+    let tmpfile=tempname()
+    exe "redir! > " . tmpfile
+    silent echon l:list
+    redir END
+    let old_efm = &efm
+    set efm=%m\ %l\ %f\ %s
+    if exists(":cgetfile")
+        execute "silent! cgetfile " . tmpfile
+    else
+        execute "silent! cfile " . tmpfile
+    endif
+    let &efm = old_efm
+    botright copen
+    call delete(tmpfile)
+  endif
+endfunction
+command! -nargs=0 T :call List_Tag()
+fun! Git()
+    cd %:h
+    silent !git add %
+    if !v:shell_error
+        silent !git commit -m "vim commit"
+        let shell_error = v:shell_error
+        silent !git pull --rebase
+        if ((!v:shell_error)&&(!shell_error))
+            silent !git push
+        endif
+    endif
+    !echo %:p
+    silent cd -
+endfun
+command -nargs=0 Git call Git()
