@@ -35,6 +35,7 @@ let tlist_typescript_settings='typescript;m:methods;f:functions'
 let tlist_markdown_settings='markdown;c:chapters;s:sections'
 let tlist_rust_settings='rust;f:functions;P:methods'
 let tlist_cmake_settings='cmake;t:targets;v:variable;f:functions;m:macros'
+let tlist_html_settings='html;I:identifiers'
 au BufNewFile,BufRead *.ets,*.ts setf typescript
 set updatetime=500
 nmap <F5> :GtagsCscope<CR>
