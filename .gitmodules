@@ -1,0 +1,3 @@
+[submodule "config/vim/vimfiles_tagbar/pack/plugin/start/tagbar"]
+	path = config/vim/vimfiles_tagbar/pack/plugin/start/tagbar
+	url = https://github.com/preservim/tagbar.git
