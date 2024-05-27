@@ -45,7 +45,7 @@ nmap <F5> :GtagsCscope<CR>
 nmap <C-E> :exec strlen(expand('%'))==0?'e .':'e %:h'<CR>
 au BufRead * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 colorscheme desert
-highlight Folded ctermfg=6
+highlight Folded ctermbg=6
 if has("gui_running")
     set cursorline
     if has('unix')
