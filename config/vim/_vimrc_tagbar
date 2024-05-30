@@ -25,6 +25,7 @@ set ignorecase
 set smartcase
 set incsearch
 set noswapfile
+au FileType qf set nowrap
 set backspace=indent,eol,start
 set fileencodings=utf-8,gb18030
 set udf
