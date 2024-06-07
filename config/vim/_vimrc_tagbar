@@ -31,6 +31,7 @@ set fileencodings=utf-8,gb18030
 set udf
 set udir=~/.tmp
 set nobk
+set hid
 set ar
 set autoindent
 set smartindent
