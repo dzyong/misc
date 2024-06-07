@@ -1,3 +1,4 @@
+lan en_US.utf-8
 let taglist = "tagbar"
 if taglist == "tlist"
   if has('win32')
