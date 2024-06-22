@@ -2,18 +2,20 @@
 
 DEBUG="true"
 CURDIR=`pwd`
-LINUX_KERNEL_TAR="linux-4.4.179.tar.xz"
+LINUX_KERNEL_TAR="linux-5.15.161.tar.xz"
+LINUX_KERNEL_DIR=v$(sed -r 's/linux-([1-9]).*/\1/' <<< $LINUX_KERNEL_TAR).x
+LINUX_KERNEL_URL=https://mirrors.ustc.edu.cn/kernel.org/linux/kernel/${LINUX_KERNEL_DIR}
 FORCE_CHECK_SUM="false"
 if [ ! -f ${LINUX_KERNEL_TAR} ];then
-    wget -c https://mirrors.ustc.edu.cn/kernel.org/linux/kernel/v4.x/${LINUX_KERNEL_TAR}
+    wget -c ${LINUX_KERNEL_URL}/${LINUX_KERNEL_TAR}
 else
     if [ ${FORCE_CHECK_SUM} == "true" ];then
         KERNEL_SUMS="sha256sums.asc"
         rm -rf ${KERNEL_SUMS}
-        wget -c https://mirrors.ustc.edu.cn/kernel.org/linux/kernel/v4.x/${KERNEL_SUMS}
+        wget -c ${LINUX_KERNEL_URL}/${KERNEL_SUMS}
         CHECK_SUM=`grep ${LINUX_KERNEL_TAR} ${KERNEL_SUMS}`
         if [ "`sha256sum ${LINUX_KERNEL_TAR}`" != "${CHECK_SUM}" ];then
-            wget -c https://mirrors.ustc.edu.cn/kernel.org/linux/kernel/v4.x/${LINUX_KERNEL_TAR}
+            wget -c ${LINUX_KERNEL_URL}/${LINUX_KERNEL_TAR}
         fi
     fi
 fi
@@ -39,7 +41,10 @@ fi
 if [ ${DEBUG} == "true" ];then
     echo "Compile "${ARCH}" kernel with "${CROSS_COMPILE}"gcc"
 fi
-make ARCH=${ARCH} defconfig
+if [ ! -f .config ];then
+    make ARCH=${ARCH} defconfig
+    echo "CONFIG_UEVENT_HELPER=y" >> .config
+fi
 make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE}
 INIT_RD=${CURDIR}"/cpio/"
 rm -rf ${INIT_RD}
@@ -88,6 +93,7 @@ mount -a
 echo /sbin/mdev > /proc/sys/kernel/hotplug
 mdev -s
 mount -t ext4 /dev/vda /disk
+echo "switch to real root"
 exec switch_root /disk /init
 EOF
 chmod +x init
@@ -136,4 +142,4 @@ sudo umount ${CURDIR}/mnt
 #qemu-system-aarch64 -cpu cortex-a53 -smp 2 -m 512M -kernel Image.gz -nographic -initrd image.cpio.gz -M virt
 #qemu-system-aarch64 -cpu cortex-a53 -smp 2 -m 512M -kernel Image.gz -nographic -M virt -drive file=disk.img,format=raw -append "root=/dev/vda" -initrd image.cpio.gz
 #qemu-system-arm -kernel zImage -nographic -initrd image.cpio.gz -M versatilepb -append "console=ttyAMA0,115200"
-#qemu exit: ctrl-a x; debug: -S -s/-g; gdb vmlinux(virt addr); add-symbol-file vmlinux -s .head.text 0x40080000(phy addr)
+#qemu exit: ctrl-a x; console: ctral-a c; debug: -S -s/-g; gdb vmlinux(virt addr); add-symbol-file vmlinux -s .head.text 0x40080000(phy addr)
