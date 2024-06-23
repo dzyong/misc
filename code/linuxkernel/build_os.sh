@@ -43,7 +43,7 @@ if [ ${DEBUG} == "true" ];then
 fi
 if [ ! -f .config ];then
     make ARCH=${ARCH} defconfig
-    echo "CONFIG_UEVENT_HELPER=y" >> .config
+    sed -i 's/# CONFIG_UEVENT_HELPER is not set/CONFIG_UEVENT_HELPER=y/' .config
 fi
 make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE}
 INIT_RD=${CURDIR}"/cpio/"
@@ -81,8 +81,10 @@ if [ ! -d ${BUSYBOX_DIR} ];then
     tar xvf ${BUSY_BOX_TAR}
 fi
 cd ${BUSYBOX_DIR}
-make ARCH=${ARCH} defconfig
-echo "CONFIG_STATIC=y" >> .config
+if [ ! -f .config ];then
+    make ARCH=${ARCH} defconfig
+    sed -i 's/# CONFIG_STATIC is not set/CONFIG_STATIC=y/' .config
+fi
 make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} CONFIG_PREFIX=_install install
 BUSYBOX_INSTALL_DIR=`pwd`"/_install"
 cd ${INIT_RD}
@@ -115,7 +117,7 @@ ln -sf sbin/init init
 rm -rf disk
 EXT_DIR=${CURDIR}/ext
 if [ -d ${EXT_DIR} ];then
-  cp -r ${CURDIR}/ext ./
+  cp -r ${EXT_DIR} ./
 fi
 mkdir -p etc/init.d
 cat > etc/init.d/rcS << EOF
@@ -132,14 +134,15 @@ cat > etc/inittab << EOF
 ::shutdown:/bin/umount -a -r
 ::shutdown:/sbin/swapoff -a
 EOF
-dd if=/dev/zero of=${OUT}/disk.img bs=1M count=32
-mkfs.ext4 ${OUT}/disk.img
+dd if=/dev/zero of=${OUT}/disk.img bs=10M count=$(expr $(du -s ${DISK_DIR}|awk '{print $1}') / 10240 + 5)
+mkfs.ext4 -N $(expr $(find ${DISK_DIR}|wc -l) \* 2) -J size=1 ${OUT}/disk.img
 rm -rf ${CURDIR}/mnt
 mkdir ${CURDIR}/mnt
 sudo mount ${OUT}/disk.img ${CURDIR}/mnt
 sudo cp -a ${DISK_DIR}/* ${CURDIR}/mnt/
 sudo umount ${CURDIR}/mnt
 #qemu-system-aarch64 -cpu cortex-a53 -smp 2 -m 512M -kernel Image.gz -nographic -initrd image.cpio.gz -M virt
-#qemu-system-aarch64 -cpu cortex-a53 -smp 2 -m 512M -kernel Image.gz -nographic -M virt -drive file=disk.img,format=raw -append "root=/dev/vda" -initrd image.cpio.gz
+#qemu-system-aarch64 -cpu cortex-a53 -smp 2 -m 512M -kernel Image.gz -nographic -initrd image.cpio.gz -M virt -drive file=disk.img,format=raw -append "root=/dev/vda"
 #qemu-system-arm -kernel zImage -nographic -initrd image.cpio.gz -M versatilepb -append "console=ttyAMA0,115200"
-#qemu exit: ctrl-a x; console: ctral-a c; debug: -S -s/-g; gdb vmlinux(virt addr); add-symbol-file vmlinux -s .head.text 0x40080000(phy addr)
+#dts: -M virt,dumpdtb=coretex-a57.dtb; qemu exit: ctrl-a x; console: ctral-a c; debug: -S -s/-g; gdb vmlinux(virt addr); add-symbol-file vmlinux -s .head.text 0x40080000(phy addr)
+#qemu-system-aarch64 --help|sed -rn 's/([A-Z].*):$/\1/p'
