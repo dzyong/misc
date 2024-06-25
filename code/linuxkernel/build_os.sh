@@ -142,7 +142,8 @@ sudo mount ${OUT}/disk.img ${CURDIR}/mnt
 sudo cp -a ${DISK_DIR}/* ${CURDIR}/mnt/
 sudo umount ${CURDIR}/mnt
 #qemu-system-aarch64 -cpu cortex-a53 -smp 2 -m 512M -kernel Image.gz -nographic -initrd image.cpio.gz -M virt
-#qemu-system-aarch64 -cpu cortex-a53 -smp 2 -m 512M -kernel Image.gz -nographic -initrd image.cpio.gz -M virt -drive file=disk.img,format=raw -append "root=/dev/vda"
+#qemu-system-aarch64 -cpu cortex-a53 -smp 2 -m 512M -kernel Image.gz -nographic -initrd image.cpio.gz -M virt -drive file=disk.img,format=raw -append "root=/dev/vda nokaslr"
 #qemu-system-arm -kernel zImage -nographic -initrd image.cpio.gz -M versatilepb -append "console=ttyAMA0,115200"
 #dts: -M virt,dumpdtb=coretex-a57.dtb; qemu exit: ctrl-a x; console: ctral-a c; debug: -S -s/-g; gdb vmlinux(virt addr); add-symbol-file vmlinux -s .head.text 0x40080000(phy addr)
 #qemu-system-aarch64 --help|sed -rn 's/([A-Z].*):$/\1/p'
+#nokaslr: Documentation/dev-tools/gdb-kernel-debugging.rst
