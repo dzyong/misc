@@ -65,6 +65,10 @@ if has("gui_running")
 else
     set nocursorline
 endif
+let session_file = getcwd() . "/Session.vim"
+if filereadable(session_file)
+  execute "source " . session_file
+endif
 function! Find(...)
   let path="."
   if a:0==2
