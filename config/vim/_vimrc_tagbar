@@ -157,3 +157,11 @@ fun! Git()
     silent cd -
 endfun
 command -nargs=0 Git call Git()
+function! CscopeOnSave()
+  let v:errmsg = ""
+  silent! cs show
+  if v:errmsg !~ 'No cscope connections'
+		silent !global --single-update %
+  endif
+endfunction
+"autocmd BufWritePost * call CscopeOnSave()
